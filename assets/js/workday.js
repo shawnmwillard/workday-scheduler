@@ -1,19 +1,22 @@
 var container = $(".container");
-var time = ["9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM"]
-var currentHour = moment().hour() - 9;
-var date = $("<h1>");
+var time = ["7:00","8:00","9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00"]
+var currentHour = moment().hour()
+console.log(currentHour)
+var date = $("#currentDay");
 date.text(moment().format('dddd MMMM Do' + ", " + 'YYYY'));
 container.append(date);
 
 function onSiteLoaded() {
-    for (i = 0; i < 9; i++) {
-        if (i < currentHour) {
+    for (i = 0; i < time.length; i++) {
+        console.log(time[i])
+        let thisTimeSlotAsInteger = parseInt(time[i])
+        if (thisTimeSlotAsInteger < currentHour) {
             var timeClass = "past";
         }
-        else if (i === currentHour) {
+        else if (thisTimeSlotAsInteger == currentHour) {
             var timeClass = "present";
         }
-        else if (i > currentHour) {
+        else if (thisTimeSlotAsInteger > currentHour) {
             var timeClass = "future";
         }
         var row = $("<div>");
@@ -35,6 +38,7 @@ function onSiteLoaded() {
 };
 
 function saveTask() {
+    console.log($(this).prev())
     localStorage.setItem($(this).attr("id"), $(this).prev().val());
 
     $(this).prev().transfer( {
